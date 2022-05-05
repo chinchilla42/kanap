@@ -1,10 +1,11 @@
+/* récupération de tous les produits disponibles  */
 fetch("http://localhost:3000/api/products")
     .then(function(res) {
       if (res.ok) {
         return res.json();
       }
   })
-
+/*boucle pour obtenir les informations de chaque produit et les insérer dans la page*/
   .then(function (products){
     products.forEach(product => {
 
