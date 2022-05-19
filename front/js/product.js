@@ -9,8 +9,7 @@ fetch("http://localhost:3000/api/products/" + productId)
       return res.json();
     }
 })
-.then(function(product){
-  article = product;
+.then(function(article){
   if (article){
     display(article);
   }
@@ -37,56 +36,47 @@ function display(article){
     //console.log(color);
     let productColor = document.createElement("option");
     document.querySelector("#colors").appendChild(productColor);
-    productColor.value = color;
+    productColor.productColor = color;
     productColor.innerHTML = color;
   }
-
 }
+/*gestion du panier */
+let addToCart = document.getElementById("addToCart");
 
-/*gestion du panier*/
-function saveCart(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
+addToCart.addEventListener("click", function() {
 
-function getCart() {
-  let cart = localStorage.getItem("cart");
-  /*s'il n'y a pas de panier, le créer en retournant un tableau vide*/
-  if (cart == null) {
-    return [];
+  let productAdded = {
+    id: productId,
+    color: document.querySelector("#colors").value,
+    quantity: parseInt(document.querySelector("#quantity").value),
   }
-  /*sinon, retourner le panier*/
-  else {
-    return JSON.parse(cart);
+
+  let cart = JSON.parse(localStorage.getItem("product"))
+
+
+  const addProduct = () => {
+    cart.push(productAdded);
+    localStorage.setItem("product", JSON.stringify(cart));
   }
-}
 
-function addToCart(product) {
-  let cart = getCart();
-  /*verifier la quantité du même prduit*/
-  let foundProduct =cart.find(p => p.id == product.id);
-  if (foundProduct != undefined){
-    foundProduct.quantity++;
+  /*si le panier existe déjà*/
+  if(cart){
+    const foundProduct = cart.find( (p) => p.id ==id && p.color == document.querySelector("#color").value)
+    /*si le produit est déjà dans le panier*/
+    if (foundProduct){
+      let newQuantity = foundProduct.quantity + productAdded.quantity;
+      foundProduct.quantity = newQuantity;
+      addProduct();
+    }
+    /*si le produit n'est pas encore dans le panier*/
+    else{
+      addProduct();
+    }
   }
-  else {
-    product.quantity = 1;
-    cart.push(product);
+  /*si le panier est vide*/
+  else{
+    cart = [];
+    addProduct();
   }
-  saveCart(cart);
-}
-
-/*let product = {
-  id: productId,
-  name: productName,
-  description: productDescription,
-  img: productImage.src,
-  altImg: productImage.alt,
-  color: productColor.value,
-  //quantity: ,
-}
-console.log(produit)*/
-
-let addToCartButton = document.getElementById("addToCart");
-
-/*addToCartButton.addEventListener("click"){
-  addToCart(product);
-};*/
+  
+})
