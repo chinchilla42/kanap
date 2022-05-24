@@ -4,19 +4,16 @@ let productId = url.searchParams.get("id");
 
 /* récupérer le produit demandé grâce à son id passé en url */
 fetch("http://localhost:3000/api/products/" + productId)
-.then(function(res) {
-    if (res.ok) {
+.then(function(res) 
+{
+    if (res.ok) 
+    {
       return res.json();
     }
 })
-.then(function(article){
-  if (article){
-    display(article);
-  }
-})
-
-/*afficher les informations sur le produit*/
-function display(article){
+.then(function(article)
+{
+  /*afficher les informations sur le produit*/
   let productImage = document.createElement("img");
   document.querySelector(".item__img").appendChild(productImage);
   productImage.src = article.imageUrl;
@@ -31,52 +28,60 @@ function display(article){
   let productDescription = document.getElementById("description");
   productDescription.innerHTML = article.description;
 
-/*boucle pour récupérer et afficher les options de couleurs du produit*/
-  for (let color of article.colors){
+  /*boucle pour récupérer et afficher les options de couleurs du produit*/
+  for (let color of article.colors)
+  {
     //console.log(color);
     let productColor = document.createElement("option");
     document.querySelector("#colors").appendChild(productColor);
     productColor.productColor = color;
     productColor.innerHTML = color;
   }
-}
-/*gestion du panier */
-let addToCart = document.getElementById("addToCart");
 
-addToCart.addEventListener("click", function() {
+  /*gestion du panier */
+  let addToCart = document.getElementById("addToCart");
 
-  let productAdded = {
-    id: productId,
-    color: document.querySelector("#colors").value,
-    quantity: parseInt(document.querySelector("#quantity").value),
-  }
+  addToCart.addEventListener("click", function()  
+  {
+    let productAdded = 
+    {
+      id: productId,
+      color: document.querySelector("#colors").value,
+      quantity: parseInt(document.querySelector("#quantity").value),
+    }
 
-  let cart = JSON.parse(localStorage.getItem("product"))
+    let cart = JSON.parse(localStorage.getItem("product"))
 
+    const addProduct = () => 
+    {
+      cart.push(productAdded);
+      localStorage.setItem("product", JSON.stringify(cart));
+    }
 
-  const addProduct = () => {
-    cart.push(productAdded);
-    localStorage.setItem("product", JSON.stringify(cart));
-  }
-
-  /*si le panier existe déjà*/
-  if(cart){
-    const foundProduct = cart.find( (p) => p.id ==id && p.color == document.querySelector("#color").value)
-    /*si le produit est déjà dans le panier*/
-    if (foundProduct){
-      let newQuantity = foundProduct.quantity + productAdded.quantity;
-      foundProduct.quantity = newQuantity;
+    /*si le panier existe déjà*/
+    if(cart)
+    {
+      let foundProduct = cart.find(p => p.id == productAdded.id && p.color == productAdded.color);
+      /*si le produit est déjà dans le panier*/
+      if (foundProduct)
+      {
+        let newQuantity = foundProduct.quantity + productAdded.quantity;
+        foundProduct.quantity = newQuantity;
+        localStorage.setItem("product", JSON.stringify(cart));
+      }
+      
+      //si le produit n'est pas encore dans le panier
+      else
+      {
+        addProduct();
+      }
+    }
+    /*si le panier est vide*/
+    else
+    {
+      cart = [];
       addProduct();
     }
-    /*si le produit n'est pas encore dans le panier*/
-    else{
-      addProduct();
-    }
-  }
-  /*si le panier est vide*/
-  else{
-    cart = [];
-    addProduct();
-  }
-  
+    console.log(cart); 
+  })
 })
