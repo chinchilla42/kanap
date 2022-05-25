@@ -93,7 +93,33 @@ if (cart){
         let deleteItem = document.createElement("p");
         settingDelete.appendChild(deleteItem);
         deleteItem.className = "deleteItem";
+        deleteItem.textContent = "Supprimer";
     })
   }
 }
 
+/* modif quantité */
+let modifyQuantity = document.querySelectorAll ("#itemQuantity");
+modifyQuantity.addeventlistener("change", function){
+
+}
+
+/*supprimer : 
+let deleteItem = document.querySelector("#)
+element.closest avec id et couleur
+
+
+important : modifier DOM et local storage
+*/
+
+/*total
+pour chaque article
+prix * quantité
+ ajouté à total général*/
+
+
+ /*formulaire
+ regex
+ message d'erreur
+ objet contact et tableau de produits
+ */
