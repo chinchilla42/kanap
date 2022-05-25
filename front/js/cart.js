@@ -98,24 +98,27 @@ if (cart){
   }
 }
 
-/* modif quantité */
+/* modif quantité 
 let modifyQuantity = document.querySelectorAll ("#itemQuantity");
-modifyQuantity.addeventlistener("change", function){
+modifyQuantity.addeventlistener("change", function)
+{
+  let elementQuantity = 
 
 }
 
 /*supprimer : 
-let deleteItem = document.querySelector("#)
+let deleteItem = document.querySelector("#deleteItem");
+deleteItem.addEventListener("change", function)
+{
+
+}
 element.closest avec id et couleur
-
-
-important : modifier DOM et local storage
 */
 
 /*total
 pour chaque article
 prix * quantité
- ajouté à total général*/
+ajouter à total général*/
 
 
  /*formulaire
@@ -123,3 +126,4 @@ prix * quantité
  message d'erreur
  objet contact et tableau de produits
  */
+
