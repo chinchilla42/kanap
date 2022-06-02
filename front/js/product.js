@@ -51,7 +51,7 @@ fetch("http://localhost:3000/api/products/" + productId)
     }
 
     let cart = JSON.parse(localStorage.getItem("product"))
-
+    
     const addProduct = () => 
     {
       cart.push(productAdded);
@@ -82,6 +82,5 @@ fetch("http://localhost:3000/api/products/" + productId)
       cart = [];
       addProduct();
     }
-    console.log(cart); 
   })
 })
