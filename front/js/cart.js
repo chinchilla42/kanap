@@ -92,8 +92,8 @@ if (cart) {
         quantity.addEventListener("change", (q) => {
 
           item.quantity = quantity.value;
-          //console.log(item.quantity);
-          //console.log(quantity.value);
+          console.log(item.quantity);
+          console.log(quantity.value);
 
           localStorage.setItem("product", JSON.stringify(cart));
           location.reload();
