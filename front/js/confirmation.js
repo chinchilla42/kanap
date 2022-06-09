@@ -5,7 +5,7 @@ function getOrderId()
 {
     const displayOrderId = document.getElementById("orderId");
     displayOrderId.innerText = id;
-    localStorage.clear();
+    //localStorage.clear();
 }
 
 getOrderId()
