@@ -2,7 +2,6 @@
 const cart = JSON.parse(localStorage.getItem("product"));
 //console.table(cart)
 
-
 /*boucle dans le panier pour traiter chaque produit*/
 async function displayCart() 
 {
@@ -10,7 +9,6 @@ async function displayCart()
   if (cart)
   {
     let totalCartPrice = 0;
-    let totalArticlePrice = 0;
 
     for (let product of cart) 
     {
@@ -95,6 +93,30 @@ async function displayCart()
           quantity.setAttribute("max", "100");
           quantity.setAttribute("value", item.quantity);
 
+
+          quantity.addEventListener("change", (f) =>
+          {
+            f.preventDefault();
+            let idToChange = item.id;
+            let colorToChange = item.color;
+            cartContent = cart.find((p) => p.id === idToChange)  && cart.find((p) => p.color === colorToChange);
+            //console.log(cartContent);
+              if (cartContent)
+             {
+              //console.log(cartContent.quantity);
+              //console.log(Number(quantity.value)); 
+              cartContent.quantity = Number(quantity.value);
+              //console.log(cartContent.quantity);
+              //console.log(cartContent); 
+              localStorage.setItem("product", JSON.stringify(cart));
+             }
+             else
+             {
+              cart.push(product);
+              localStorage.setItem("product", JSON.stringify(cart));
+             }
+          })
+
           let settingDelete = document.createElement("div");
           settings.appendChild(settingDelete);
           settingDelete.className = "cart__item__content__settings__delete";
@@ -115,8 +137,7 @@ async function displayCart()
               cartContent = cart.filter(el => el.id != idToDelete || el.color != colorToDelete);
               e.target.closest(".cart__item").remove();
               localStorage.setItem("product", JSON.stringify(cartContent));
-              getTotals();
-              //console.log(cart);
+              reloadPage();
             });
           //console.log(quantity.value);
           //console.log(productPrice);
@@ -126,26 +147,15 @@ async function displayCart()
           totalPrice.innerText = totalCartPrice;
         })
     }
-    //  function deletedItem ()
-    //  {
-    //    let deleteButton = [];
-    //    deleteButton= document.querySelectorAll(".deleteItem");
-    //    console.log(deleteButton);
-    //    deleteButton[0].addEventListener("click", function () 
-    //    {
-    //      let idToDelete = item.id;
-    //      let colorToDelete = item.color;
-    //      console.log(idToDelete);
-    //      console.log(colorToDelete);
-    //      cartContent = cart.filter(el => el.id != idToDelete || el.color != colorToDelete);
-    //      localStorage.setItem("product", JSON.stringify(cartContent));
-    //      location.reload;
-    //    })
-    //  }
-    //  deletedItem();
   }
 }
 displayCart();
+
+
+function reloadPage()
+{
+  document.location.reload();
+}
 
 /*calculer le nombre total d'articles dans le panier*/
 async function getTotals() 
@@ -161,51 +171,6 @@ async function getTotals()
     totalQuantity.textContent = totalArticles;
 }
 getTotals();
-
-/*async function getTotalPrice(price)
-{
-  let totalArticles = 0;
-  let totalArticlePrice = 0;
-  let totalCartPrice = 0;
-  let itemQuantity = document.querySelectorAll("#itemQuantity");
-  let totalOfArticles = document.getElementsByClassName("cart__item");
-  
-  /*prix total par article = quantité de cet article * prix de l'article 
-  for (let i = 0; i < totalOfArticles.length; i++)
-  {
-  totalArticlePrice = itemQuantity * price;
-  console.log(itemQuantity)
-  totalCartPrice += totalArticlePrice;
-  console.log(totalCartPrice);
-  }
-  /*prix total du panier
-  let totalPrice = document.getElementById("totalPrice");
-  totalPrice.innerText = totalCartPrice;
-}*/
-
-
-
-// async function changeQuantity() 
-// {
-//   let itemQuantity = document.querySelectorAll("itemQuantity");
-//   //console.log(itemQuantity.length);
-//   for (let i = 0; i < itemQuantity.length; i++) 
-//   {
-//     itemQuantity[i].addEventListener("change", (event) => 
-//     {
-//       event.preventDefault();
-//       item.quantity  = quantity[i].value; 
-//       console.log(item.quantity);
-//       console.log(quantity.value);
-//       localStorage.setItem("product", JSON.stringify(cart));
-//       location.reload();
-//       console.log(cart);
-//     })
-//   }
-// }
-// changeQuantity();
-
-
 
 /*formulaire*/
 
