@@ -115,6 +115,7 @@ async function displayCart()
               cart.push(product);
               localStorage.setItem("product", JSON.stringify(cart));
              }
+             reloadPage();
           })
 
           let settingDelete = document.createElement("div");
@@ -172,14 +173,14 @@ async function getTotals()
 }
 getTotals();
 
-/*formulaire*/
+/*formulaire
 
-/*regex*/
+/*regex
 let nameRegex = /^[a-zA-Z\-\’]+$/;
 let addressRegex = /^[a-zA-Z0-9\s,'-]*$/;
 let emailRegex = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
 
-/*messages d'erreur*/
+/*messages d'erreur
 let firstNameError = document.getElementById("firstNameErrorMsg");
 let lastNameError = document.getElementById("lastNameErrorMsg");
 let addressError = document.getElementById("addressErrorMsg");
@@ -229,40 +230,57 @@ form.email.addEventListener("change", () =>
   {
     emailError.innerText = "format d'email invalide";
   }
-})
+})*/
 
-let submitButton = document.getElementById("order");
-submitButton.addEventListener("click", () => 
+let submitButton = document.getElementById('order');
+
+
+//console.log(submitButton);
+submitButton.addEventListener("click", function (c) 
 {
+  c.preventDefault();
+  let orderProducts = [];
+  for (product of cart) 
+  {
+    orderProducts.push(product.id);
+  }
 
   /*objet contact et tableau de produits*/
-  const order = 
+  let myOrder =
   {
-    contact: 
+    contact:
     {
-      firstName: document.getElementById("firstName"),
-      lastName: document.getElementById("lastName"),
-      address: document.getElementById("address"),
-      city: document.getElementById("city"),
-      email: document.getElementById("email"),
+      firstName: document.getElementById("firstName").value,
+      lastName: document.getElementById("lastName").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      email: document.getElementById("email").value
     },
-    productsOrdered: cart
+    products: orderProducts,
   };
-  console.log(order);
-  
-  let options = 
+  console.log(myOrder);
+
+  const options =
   {
-    method: 'POST',
-    body: JSON.stringify(order),
-    headers: 
+    method: "POST",
+    headers:
     {
-        "Content-Type": "application/json",
-    }
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(myOrder),
   };
-  fetch('http://localhost:3000/api/products/order', options)
-  .then((res) => res.json())
-  .then((data) => {
+  //console.log(options);
+
+  fetch("http://localhost:3000/api/products/order", options)
+
+    .then((res) => res.json())
+    .then((data) => 
+    {
       console.log(data);
-      document.location.href = 'confirmation.html?orderId=' + data.orderId
+      document.location.href = 'confirmation.html?orderId=' + data.orderId;
     })
+    .catch(error => console.log('error', error));
 })
+
+
