@@ -3,6 +3,7 @@ let id = orderId.get('orderId');
 
 function getOrderId() 
 {
+    console.log(id);
     const displayOrderId = document.getElementById("orderId");
     displayOrderId.innerText = id;
     //localStorage.clear();

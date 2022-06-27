@@ -8,7 +8,7 @@ fetch("http://localhost:3000/api/products")
   }
 })
 
-/*boucle pour obtenir les informations de chaque produit et les insérer dans la page*/
+/* boucle pour obtenir les informations de chaque produit et les insérer dans la page */
 .then(function (products)
 {
   products.forEach(product => 
