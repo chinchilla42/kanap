@@ -30,7 +30,7 @@ fetch("http://localhost:3000/api/products")
 
       let h3 = document.createElement('h3');
       h3.classList.add("productName");
-      h3.Text = product.name;
+      h3.innerText = product.name;
       article.appendChild(h3);
 
       let p = document.createElement('p');
